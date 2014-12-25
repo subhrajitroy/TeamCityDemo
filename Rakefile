@@ -8,11 +8,13 @@ RELEASE_VERSION = SemVer.find.format '%M.%m.%p'
 
 
 desc 'Updates the TeamCity build number to the current semantic version'
-task :update_teamcity_build_number  do
+task :update_teamcity_build_number => :generate_versions do
   puts "##teamcity[buildNumber '#{ENV['SEMANTIC_VERSION']}']"
 end
 
-task :default => [:update_teamcity_build_number,:compile]
+task :default => :build
+
+task :build => [:update_teamcity_build_number,:compile,:package]
 
 desc 'Compile solution'
 build :compile => [:restore,:set_assembly_version] do |b|
@@ -45,7 +47,7 @@ define_versions :generate_versions do |c|
   c.formal_version = RELEASE_VERSION
 end
 
-task :set_assembly_version => :generate_versions do
+task :set_assembly_version => [:generate_versions] do
  assembly_info = AssemblyInfo.new build_version,"StringTest/StringTest/Properties/AssemblyInfo.cs"
  assembly_info.create
 end
@@ -53,7 +55,7 @@ end
 directory 'build/pkg'
 
 desc 'package nugets - finds all projects and package them'
-nugets_pack :package => ['build/pkg', :set_assembly_version, :compile] do |p|
+nugets_pack :package => ['build/pkg'] do |p|
   p.files   = FileList['**/*.{csproj}'].
     exclude(/test/)
   p.out     = 'build/pkg'
