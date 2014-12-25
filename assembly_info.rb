@@ -1,4 +1,14 @@
 
+class AssemblyInfo
+
+	 def initialize version,path
+	 	@path = path
+	 	@version = version
+	 end
+
+
+def create()
+		content = %Q[
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -14,6 +24,13 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("0.0.0.9822")]
-[assembly: AssemblyFileVersion("0.0.0.9822")]
-	
+[assembly: AssemblyVersion("#{@version}")]
+[assembly: AssemblyFileVersion("#{@version}")]
+	]
+
+		File.open(@path,"w+"){|file| file.write(content)}
+
+		puts "Created file @ #{@path}" 
+end
+
+end

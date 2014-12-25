@@ -56,7 +56,7 @@ class DefineVersionsTask
   end
 
   def last_build_number
-    '0.0.1-alpha3'
+    "0.0.0.#{rand(1000..9999)}"
   end
 
   def semantic_version
@@ -66,14 +66,14 @@ class DefineVersionsTask
     if not release? and not local_build?
       current_build_number = last_build_number
       if current_build_number.include? version
-        build_counter = current_build_number.split('-alpha').last.to_i
+        build_counter = current_build_number.split('.').last.to_i
         build_counter+=1
       end
 
-      version << "-alpha#{build_counter}"
+      version << ".#{build_counter}"
     end
 
-    version << '-local' if local_build?
+    version << '.local' if local_build?
     puts "Version is " << version
     version
   end
