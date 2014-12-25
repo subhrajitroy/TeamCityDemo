@@ -24,8 +24,8 @@ end
 
 desc 'Uses the semantic version and TeamCity API to generate the next version number. Results are stored in ENV variable; SEMANTIC_VERSION,ASSEMBLY_INFO_VERSION,DM_VERSION'
 define_versions :generate_versions do |c|
-  c.teamcity_url = 'phoenix.teamcity.ci.ttldev'
-  c.build_configuration_name = 'RabbitToggleAPI_PreRelease_2_Development'
+  c.teamcity_url = 'localhost:8081'
+  c.build_configuration_name = 'Learnings_TeamcityDemo_Build'
   c.formal_version = RELEASE_VERSION
 end
 
