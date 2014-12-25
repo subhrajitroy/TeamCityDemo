@@ -11,7 +11,7 @@ task :update_teamcity_build_number  do
   puts "##teamcity[buildNumber '#{ENV['SEMANTIC_VERSION']}']"
 end
 
-task :default => [:generate_versions]
+task :default => [:generate_versions,:update_teamcity_build_number]
 
 def define_versions(*args, &block)
   Rake::Task.define_task *args do
