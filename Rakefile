@@ -14,7 +14,7 @@ end
 
 task :default => :build
 
-task :build => [:update_teamcity_build_number,:compile,:package]
+task :build => [:update_teamcity_build_number,:compile]
 
 desc 'Compile solution'
 build :compile => [:restore,:set_assembly_version] do |b|
@@ -63,7 +63,7 @@ nugets_pack :package => ['build/pkg'] do |p|
   p.with_metadata do |m|
     m.description = 'A cool nuget'
     m.authors = 'sroy'
-    m.version = build_version
+    m.version = ENV['BUILD_NUMBER']
   end
   
 end
